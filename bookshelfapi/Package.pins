@@ -26,6 +26,12 @@
       "version": "1.7.9"
     },
     {
+      "package": "Kitura-CouchDB",
+      "reason": null,
+      "repositoryURL": "https://github.com/IBM-Swift/Kitura-CouchDB.git",
+      "version": "1.7.2"
+    },
+    {
       "package": "Kitura-net",
       "reason": null,
       "repositoryURL": "https://github.com/IBM-Swift/Kitura-net.git",
@@ -66,6 +72,12 @@
       "reason": null,
       "repositoryURL": "https://github.com/IBM-Swift/BlueSSLService.git",
       "version": "0.12.55"
+    },
+    {
+      "package": "SwiftDotEnv",
+      "reason": null,
+      "repositoryURL": "https://github.com/SwiftOnTheServer/SwiftDotEnv.git",
+      "version": "1.1.0"
     },
     {
       "package": "SwiftyJSON",

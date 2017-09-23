@@ -1,14 +1,31 @@
+import CouchDB
 import HeliumLogger
 import Foundation
 import Kitura
 import LoggerAPI
 import SwiftyJSON
+import DotEnv
 
 // Disable buffering
 setbuf(stdout, nil)
 
 // Attach a logger
 Log.logger = HeliumLogger()
+
+let env = DotEnv()
+ 
+let connectionProperties = ConnectionProperties(
+    host: env.get("DB_HOST") ?? "localhost",
+    port: Int16(env.getAsInt("DB_PORT") ?? 5984),
+    secured: env.getAsBool("DB_HTTPS") ?? false,
+    username: env.get("DB_USERNAME") ?? "rob",
+    password: env.get("DB_PASSWORD") ?? "123456"
+)
+let databaseName = env.get("DB_NAME") ?? "bookshelf_db"
+ 
+let client = CouchDBClient(connectionProperties: connectionProperties)
+let database = client.database(databaseName)
+let booksMapper = BooksMapper(withDatabase: database)
 
 // setup routes
 let router = Router()
@@ -17,7 +34,10 @@ router.get("/") { _, response, next in
 	        next()
 }
 
+router.get("/books", handler: listBooksHandler)
+
 // Start server
 Log.info("Starting server")
-Kitura.addHTTPServer(onPort: 8090, with: router)
+let port = env.getAsInt("APP_PORT") ?? 8090
+Kitura.addHTTPServer(onPort: port, with: router)
 Kitura.run()
